@@ -1,0 +1,47 @@
+{% load i18n bootstrap instant rechat %}
+
+<style>
+#chatbox {
+	height:22em;
+	max-height:22em;
+	width:100%;
+	text-align:left;
+	padding:1em;
+	overflow:auto;
+}
+</style>
+
+<div id="chatbox"></div>
+<form id="chatform">{% csrf_token %}
+	{{ form|bootstrap }}
+	<input type="submit" class="btn btn-primary btn-block" value="{% trans 'Send' %}" />
+</form>
+
+<script type="text/javascript">
+{% if cache_history %}
+function init_chatbox() {
+	html = '{% get_cache_history cache_history %}';
+	$('#chatbox').html(html);
+}
+init_chatbox();
+{% endif %}
+function create_post() {
+	var token = $('#chatform').children('input').first().attr('value');
+    $.ajax({
+        url : "chat/",
+        type : "POST",
+        data : { "message" : $('#id_message').val(), "csrfmiddlewaretoken" : token },
+        success : function(json) {
+            $('#id_message').val('');
+        },
+        error : function(xhr,errmsg,err) {
+            console.log(xhr.status + ": " + xhr.responseText);
+        }
+    });
+};
+$('#chatform').on('submit', function(event){
+    event.preventDefault();
+    create_post();
+});
+
+</script>
