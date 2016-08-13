@@ -28,9 +28,11 @@ class ChatView(FormView):
     def form_valid(self, form):
         message = form.cleaned_data['message']
         username = "anonymous"
+        user = None
         if self.request.user.is_authenticated():
             username = self.request.user.username
-        process_message(username, message)
+            user = self.request.user
+        process_message(user, username, message)
         return super(ChatView, self).form_valid(form)
     
     def get_success_url(self):

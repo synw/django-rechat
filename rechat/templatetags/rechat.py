@@ -9,7 +9,6 @@ register = template.Library()
 
 @register.simple_tag()
 def get_cache_history(cache_history):
-    print "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH: "+str(cache_history)
     html = ""
     for key in cache_history:
         s = key.split(':')
