@@ -12,4 +12,6 @@ CHAT_CACHE = getattr(settings, 'RECHAT_CACHE', 30)
 ttl = 60*60*12
 CHAT_CACHE_TTL = getattr(settings, 'RECHAT_CACHE_TTL', ttl)
 
+USE_HISTORY = getattr(settings, 'RECHAT_USE_HISTORY', False)
+
 ALLOW_ANONYMOUS = getattr(settings, 'RECHAT_ALLOW_ANONYMOUS', True)

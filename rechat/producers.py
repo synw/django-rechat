@@ -4,10 +4,12 @@ import time
 from django.utils.html import strip_tags
 from instant import broadcast
 from instant.conf import SITE_SLUG
-from rechat.conf import USE_CACHE
+from rechat.conf import USE_CACHE, USE_HISTORY, ALLOW_ANONYMOUS
 if USE_CACHE is True:
     import redis
-    from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB, CHAT_CACHE, CHAT_CACHE_TTL, ALLOW_ANONYMOUS
+    from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB, CHAT_CACHE, CHAT_CACHE_TTL
+if USE_HISTORY:
+    from changefeed.tasks import push_to_feed
 
 def process_message(user, username, message):
     message = strip_tags(message)
@@ -30,12 +32,17 @@ def process_message(user, username, message):
         store.ltrim(key, 0, CHAT_CACHE)
         store.expire(key, CHAT_CACHE_TTL)
     # 2. push to socket
-    broadcast_to_socket = False
+    push = False
     if user is None:
         if ALLOW_ANONYMOUS is True:
-            broadcast_to_socket = True
+            push = True
     else:
-        broadcast_to_socket = True 
-    if broadcast_to_socket is True:
-        broadcast(message, event_class="__chat_message__", data={"username":username})
+        push = True 
+    if push is False:
+        return
+    broadcast(message, event_class="__chat_message__", data={"username":username})
+    # 3. manage history
+    if USE_HISTORY:
+        data = {"message":message, "event_class":"__chat_message__", "username":username}
+        push_to_feed(data)
     return
