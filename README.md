@@ -10,4 +10,6 @@ for the websockets
 Options:
 
 - Redis for the cache
-- Rethinkdb for the history management 
+- Rethinkdb for the history management
+
+Read the [documentation](http://django-rechat.readthedocs.io/en/latest/)
