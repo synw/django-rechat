@@ -7,6 +7,7 @@ class ChatForm(forms.Form):
                               max_length=500, 
                               label="", 
                               required=True,
+                              widget=forms.TextInput(attrs={'class':'form-control'})
                               )
 
 

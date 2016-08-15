@@ -1,4 +1,4 @@
-{% load i18n bootstrap instant rechat %}
+{% load i18n instant rechat %}
 
 <style>
 #chatbox {
@@ -9,12 +9,26 @@
 	padding:1em;
 	overflow:auto;
 }
+#chatform {
+	margin-top:1em;
+	text-align:left;
+}
+#id_message {
+	font-family: sans-serif;
+	min-height:2.8em;
+}
 </style>
 
 <div id="chatbox"></div>
-<form id="chatform">{% csrf_token %}
-	{{ form|bootstrap }}
-	<input type="submit" class="btn btn-primary btn-block" value="{% trans 'Send' %}" />
+<form id="chatform" class="form-horizontal">{% csrf_token %}
+	<div class="input-group">
+		{% for field in form %}
+		    {{ field }}
+		{% endfor %}
+		 <span class="input-group-btn">
+			<input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" />
+		</span>
+	</div>
 </form>
 
 <script type="text/javascript">
