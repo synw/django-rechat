@@ -2,8 +2,8 @@
 
 <style>
 #chatbox {
-	height:22em;
-	max-height:22em;
+	height:36em;
+	max-height:36em;
 	width:100%;
 	text-align:left;
 	padding:1em;
@@ -36,6 +36,7 @@
 function init_chatbox() {
 	html = '{% get_cache_history cache_history %}';
 	$('#chatbox').html(html);
+	$('#chatbox').scrollTop($("#chatbox")[0].scrollHeight);
 }
 init_chatbox();
 {% endif %}
