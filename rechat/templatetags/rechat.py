@@ -14,6 +14,6 @@ def get_cache_history(cache_history):
         s = key.split(':')
         timestamp = datetime.datetime.fromtimestamp(float(s[0])).strftime('%H:%M')
         username = s[1]
-        message = s[2].replace("'",'"')
+        message = s[2]
         html += '<a name="'+timestamp+'"></a>'+timestamp+' '+'<strong>'+username+'</strong>'+': '+message+'<br />'
     return mark_safe(html)

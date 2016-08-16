@@ -9,7 +9,7 @@ if USE_CACHE is True:
     import redis
     from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB, CHAT_CACHE, CHAT_CACHE_TTL
 if USE_HISTORY:
-    from changefeed.tasks import push_to_feed
+    from rechat.tasks import push_to_chat
 
 def process_message(user, username, message):
     message = strip_tags(message)
@@ -42,7 +42,7 @@ def process_message(user, username, message):
         return
     broadcast(message, event_class="__chat_message__", data={"username":username})
     # 3. manage history
-    if USE_HISTORY:
+    if USE_HISTORY is True:
         data = {"message":message, "event_class":"__chat_message__", "username":username}
-        push_to_feed(data)
+        push_to_chat(data)
     return
