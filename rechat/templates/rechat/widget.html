@@ -20,7 +20,7 @@
 </style>
 
 <div id="chatbox"></div>
-<form id="chatform" class="form-horizontal">{% csrf_token %}
+<form id="chatform" class="form-horizontal" method="post">{% csrf_token %}
 	<div class="input-group">
 		{% for field in form %}
 		    {{ field }}
