@@ -16,4 +16,5 @@ def get_cache_history(cache_history):
         username = s[1]
         message = s[2]
         html += '<a name="'+timestamp+'"></a>'+timestamp+' '+'<strong>'+username+'</strong>'+': '+message+'<br />'
+        html = html.replace("'","\'")
     return mark_safe(html)
