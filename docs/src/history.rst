@@ -11,6 +11,7 @@ The chat messages can be stored in Rethinkdb. You have to enable it in settings.
 ::
 
    RECHAT_USE_HISTORY = True
+   CHANGEFEED_HANDLERS = ['rechat.r_handlers']
    
 Install Rethinkdb, Celery and Django Changefeed: 
 `instructions here <http://django-changefeed.readthedocs.io/en/latest/src/install.html>`_
