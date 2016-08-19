@@ -9,6 +9,14 @@ Install `Centrifugo <https://github.com/centrifugal/centrifugo/>`_  and
 
 Instructions are `here <http://django-instant.readthedocs.io/en/latest/src/install.html>`_
 
+Add ``'rechat',`` to INSTALLED_APPS and the urls:
+
+.. highlight:: python
+
+::
+
+   url('^chat/', include('rechat.urls')),
+
 Settings
 --------
 
