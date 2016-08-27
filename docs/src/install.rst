@@ -20,6 +20,44 @@ Add ``'rechat',`` to INSTALLED_APPS and the urls:
 Settings
 --------
 
+.. highlight:: python
+
+::
+
+   # 1. Required for django-changefeed
+   
+   SITE_SLUG = "mysite"
+   
+   # 2. Optional general settings:
+   
+   # rechat database: default is SITE_SLUG
+   RECHAT_DB = "rechat"
+   # rechat table: default is "chat"
+   RECHAT_TABLE = "mychattable"
+   
+   # 3. Persistence
+   
+   # default: True
+   USE_CACHE = False
+   # default: 30
+   RECHAT_CACHE_ITEMS = 20
+   # default: 60*60*12 (12 hours)
+   CHAT_CACHE_TTL = 60*60
+   # default: localhost
+   RECHAT_REDIS_HOST = 'ip_here'
+   # default: 6379
+   RECHAT_REDIS_PORT = 4867
+   # default: 0
+   RECHAT_REDIS_DB = 1
+   
+   # 4. History
+   USE_HISTORY = True
+   
+You will need Redis to be installed to use persistence.  
+
+If you use history create the database and table in Rethinkdb, and add a secondary index 
+set to ``timestamp`` to the table. 
+
 By default only the logged in users can chat. To enable the anonymous users in the chat: in settings.py: 
 
 .. highlight:: python
