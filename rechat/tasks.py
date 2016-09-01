@@ -12,6 +12,6 @@ def push_to_chat(data, database=DEFAULT_DB, table=DEFAULT_TABLE):
     return
 
 @task(base=QueueOnce, once={'graceful': True, 'keys': []})
-def rechat_listener(database=DEFAULT_DB, table=DEFAULT_TABLE, r_query=None):   
-    R.listen(database, table, r_query)
+def rechat_listener(database=DEFAULT_DB, table=DEFAULT_TABLE):   
+    R.listen(database, table, handler='rechat.r_handlers')
     return
