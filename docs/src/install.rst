@@ -76,3 +76,21 @@ You will also have to configure Centrifugo for this: in config.json:
   "secret": "70b651f6-775a-4949-982b-b387b31c1d84",
   "anonymous": true
   }
+  
+Templates
+---------
+
+Create a ``templates/instant/extra_handlers.js`` with this content:
+
+.. highlight:: python
+
+::
+
+   {% include "rechat/js/handlers.js" %}
+   
+
+
+
+
+  
+  
