@@ -2,14 +2,15 @@
 
 import time
 from django.utils.html import strip_tags
-from instant import broadcast
+from instant.producers import broadcast
 from instant.conf import SITE_SLUG
-from rechat.conf import USE_CACHE, USE_HISTORY, ALLOW_ANONYMOUS
+from rechat.conf import USE_CACHE, USE_HISTORY, ALLOW_ANONYMOUS, CHANNEL
 if USE_CACHE is True:
     import redis
     from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB, CHAT_CACHE, CHAT_CACHE_TTL
 if USE_HISTORY:
     from rechat.tasks import push_to_chat
+
 
 def process_message(user, username, message):
     message = strip_tags(message)
@@ -40,7 +41,7 @@ def process_message(user, username, message):
         push = True 
     if push is False:
         return
-    broadcast(message, event_class="__chat_message__", data={"username":username})
+    broadcast(message, event_class="__chat_message__", channel=CHANNEL, data={"username":username})
     # 3. manage history
     if USE_HISTORY is True:
         data = {"message":message, "event_class":"__chat_message__", "username":username}

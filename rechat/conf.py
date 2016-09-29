@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*
 
+from django.core.exceptions import ImproperlyConfigured
 from django.conf import settings
-from changefeed.conf import SITE_SLUG
 
+
+try:
+    SITE_SLUG = getattr(settings, 'SITE_SLUG')
+except ImportError:
+    raise ImproperlyConfigured(u"Rechat; a SITE_SLUG setting is required")
+
+CHANNEL = getattr(settings, 'RECHAT_CHANNEL', SITE_SLUG+'_chat')
 
 REDIS_HOST = getattr(settings, 'RECHAT_REDIS_HOST', 'localhost')
 REDIS_PORT = getattr(settings, 'RECHAT_REDIS_PORT', 6379)
