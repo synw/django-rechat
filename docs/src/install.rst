@@ -89,7 +89,13 @@ Create a ``templates/instant/extra_handlers.js`` with this content:
    {% include "rechat/js/handlers.js" %}
    
 
+Create a ``templates/instant/extra_clients.js`` with this content:
 
+.. highlight:: python
+
+::
+
+   {% include "rechat/js/client.js" %}
 
 
   
