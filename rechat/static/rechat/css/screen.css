@@ -1,0 +1,49 @@
+body {
+	margin:0;
+}
+#rc_title {
+	display:inline-block;
+	position:relative;
+	top:11px;left:2em;
+	font-size:220%;
+}
+#rc_header {
+	min-height:4em;
+	background-color:steelblue;
+}
+#rc_header a, #rc_header a:visited {
+	color:white;
+	text-decoration:none;
+}
+#chatbox {
+	text-align:left;
+	padding:1em;
+	overflow:auto;
+}
+#chatformbox {
+	margin-top:1em;
+	text-align:left;
+	position:fixed;
+	position:fixed;
+	left:0px;
+	bottom:0px;
+	padding:1em;
+	width:100%;
+}
+#chatform input[type=text] {
+	display:inline-block;
+	width:85%;
+	height:2em;
+}
+#chatform input[type=submit] {
+	display:inline-block;
+	background-color:steelblue;
+	color:white;
+	padding:0.5em 0.8em 0.5em 0.8em;
+	border-radius:5px;
+	font-size:100%;
+}
+#message {
+	font-family: sans-serif;
+	min-height:2.8em;
+}

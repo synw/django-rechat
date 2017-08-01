@@ -1,0 +1,15 @@
+{% block header %}
+	{% include "rechat/header.html" %}
+{% endblock %}
+
+{% block content %}
+	<div id="rc_content">
+		{% include "rechat/widget.html" %}
+	</div>
+{% endblock %}
+
+{% include "instant/client.html" %}
+
+{% block footer %}
+	{% include "rechat/footer.html" %}
+{% endblock %}

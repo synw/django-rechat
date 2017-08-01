@@ -1,62 +1,14 @@
-{% load i18n instant rechat_tags %}
-
-<style>
-#chatbox {
-	height:33em;
-	max-height:33em;
-	width:100%;
-	text-align:left;
-	padding:1em;
-	overflow:auto;
-}
-#chatform {
-	margin-top:1em;
-	text-align:left;
-}
-#id_message {
-	font-family: sans-serif;
-	min-height:2.8em;
-}
-</style>
+{% load i18n %}
 
 <div id="chatbox"></div>
-<form id="chatform" class="form-horizontal" method="post">{% csrf_token %}
-	<div class="input-group">
-		{% for field in form %}
-		    {{ field }}
-		{% endfor %}
-		 <span class="input-group-btn">
-			<input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" />
-		</span>
-	</div>
-</form>
-
-<script type="text/javascript">
-{% if cache_history %}
-function init_chatbox() {
-	html = '{% get_cache_history cache_history %}';
-	$('#chatbox').html(html);
-	$('#chatbox').scrollTop($("#chatbox")[0].scrollHeight);
-}
-init_chatbox();
-{% endif %}
-function create_post() {
-	var token = $('#chatform').children('input').first().attr('value');
-    $.ajax({
-        url : "chat/",
-        type : "POST",
-        data : { "message" : $('#id_message').val(), "csrfmiddlewaretoken" : token },
-        success : function(json) {
-            $('#id_message').val('');
-        },
-        error : function(xhr,errmsg,err) {
-            console.log(xhr.status + ": " + xhr.responseText);
-        }
-    });
-};
-$('#chatform').on('submit', function(event){
-    event.preventDefault();
-    create_post();
-});
-
-</script>
+<div id="chatformbox">
+	<form id="chatform" class="form-horizontal" method="post" onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' %}')">
+		{% csrf_token %}
+		<div class="input-group">
+			<input type="text" name="message" />
+			<span class="input-group-btn">
+				<input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" />
+			</span>
+		</div>
+	</form>
+</div>

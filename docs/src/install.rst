@@ -4,10 +4,11 @@ Install
 Websockets server
 -----------------
 
-Install `Centrifugo <https://github.com/centrifugal/centrifugo/>`_  and 
-`Django Instant <https://github.com/synw/django-instant>`_ .
+Install `Django Instant <https://github.com/synw/django-instant>`_ .
 
 Instructions are `here <http://django-instant.readthedocs.io/en/latest/src/install.html>`_
+
+``pip install redis``
 
 Add ``'rechat',`` to INSTALLED_APPS and the urls:
 
@@ -24,7 +25,7 @@ Settings
 
 ::
 
-   # 1. Required for django-changefeed
+   # 1. Required
    
    SITE_SLUG = "mysite"
    
@@ -79,15 +80,6 @@ You will also have to configure Centrifugo for this: in config.json:
   
 Templates
 ---------
-
-Create a ``templates/instant/extra_handlers.js`` with this content:
-
-.. highlight:: python
-
-::
-
-   {% include "rechat/js/handlers.js" %}
-   
 
 Create a ``templates/instant/extra_clients.js`` with this content:
 

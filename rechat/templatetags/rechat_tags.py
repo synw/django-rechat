@@ -19,7 +19,7 @@ register = template.Library()
 def get_cache_history(cache_history):
     html = ""
     for key in cache_history:
-        s = key.split(':')
+        s = key.decode("utf-8").split(':')
         timestamp = datetime.datetime.fromtimestamp(float(s[0])).strftime('%H:%M')
         username = s[1]
         message = s[2]
