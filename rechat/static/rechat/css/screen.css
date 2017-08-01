@@ -18,7 +18,10 @@ body {
 #chatbox {
 	text-align:left;
 	padding:1em;
+	height:74%;
 	overflow:auto;
+	position:fixed;
+	width:96%;
 }
 #chatformbox {
 	margin-top:1em;

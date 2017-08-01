@@ -14,6 +14,7 @@ var rechat_callbacks = {
     		msg = '<a name="'+timestamp+'"></a>'+msgtime+' <strong>'+data['username']+'</strong>: '+message+'<br />';
     		var chatbox = document.getElementById("chatbox");
     		chatbox.innerHTML = chatbox.innerHTML + msg;
+    		chatbox.scrollTop = chatbox.scrollHeight;
     	}
     },
     {% include "instant/js/join_events.js" %}

@@ -1,11 +1,13 @@
-{% load i18n %}
+{% load i18n staticfiles %}
 
+<script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'rechat/js/display.js' %}"></script>
 <div id="chatbox"></div>
 <div id="chatformbox">
 	<form id="chatform" class="form-horizontal" method="post" onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' %}')">
 		{% csrf_token %}
 		<div class="input-group">
-			<input type="text" name="message" />
+			<input type="text" id="message" name="message" />
 			<span class="input-group-btn">
 				<input type="submit" class="btn btn-primary" value="{% trans 'Send' %}" />
 			</span>

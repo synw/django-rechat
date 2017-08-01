@@ -2,6 +2,8 @@ function postMsg(postUrl) {
 	var form = document.getElementById("chatform");
 	var data = serializeForm(form);
 	var url = postUrl;
+	var msgbox = document.getElementById("message");
+	msgbox.value = "";
 	postForm(url, data, data.csrfmiddlewaretoken);
 	return false
 }
@@ -11,8 +13,6 @@ function postForm(url, data, token) {
 		method: 'post',
 		url: url,
 		data: data,
-	}).then(function (response) {
-		console.log(JSON.stringify(response, null, 2))
 	}).catch(function (err) {
 		console.log(err);
 	});
