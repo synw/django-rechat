@@ -2,6 +2,14 @@
 
 <script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'rechat/js/display.js' %}"></script>
+<link rel="stylesheet" media="screen, projection" href="{% static 'rechat/css/screen.css' %}" />
+<style>
+{% if request.path|slice:":5" == "/chat" %}
+	#chatbox, #chatformbox {
+		position:fixed;
+	}
+{% endif %}
+</style>
 <div id="chatbox"></div>
 <div id="chatformbox">
 	<form id="chatform" class="form-horizontal" method="post" onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' %}')">
