@@ -4,7 +4,6 @@ from django.views import View
 from django.http import JsonResponse
 from django.utils.html import escape
 from instant.conf import SITE_SLUG
-from rechat.forms import ChatForm
 from rechat.producers import process_message
 from rechat.conf import USE_CACHE, TEMPLATE
 from django.views.generic.base import TemplateView
