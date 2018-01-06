@@ -2,7 +2,7 @@
 
 Chat application for Django using websockets.
 
-Depedencies:
+Dependencies:
 
 - [Centrifugo](https://github.com/centrifugal/centrifugo) with 
 [Django Instant](https://github.com/synw/django-instant) for the websockets
