@@ -8,9 +8,19 @@ Install `Django Instant <https://github.com/synw/django-instant>`_ .
 
 Instructions are `here <http://django-instant.readthedocs.io/en/latest/src/install.html>`_
 
-``pip install redis``
+``pip install redis django-mqueue``
 
-Add ``'rechat',`` to INSTALLED_APPS and set the urls:
+Add to INSTALLED_APPS;
+
+.. highlight:: python
+
+::
+   
+   'rechat',
+   'mqueue',
+   
+
+Set the urls:
   
 .. highlight:: python
 
