@@ -13,6 +13,7 @@ Contents:
    
    src/install
    src/cache
+   src/history
    src/activity
 
 
