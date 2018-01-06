@@ -33,6 +33,8 @@ Set the urls:
    	url(r'^centrifuge/auth/$', instant_auth, name='instant-auth'),
    	url('^chat/', include('rechat.urls')),
    	]
+   	
+Run the migrations
 
 Settings
 --------
