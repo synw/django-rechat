@@ -10,13 +10,19 @@ Instructions are `here <http://django-instant.readthedocs.io/en/latest/src/insta
 
 ``pip install redis``
 
-Add ``'rechat',`` to INSTALLED_APPS and the urls:
-
+Add ``'rechat',`` to INSTALLED_APPS and set the urls:
+  
 .. highlight:: python
 
 ::
 
-   url('^chat/', include('rechat.urls')),
+   from instant.views import instant_auth
+   
+   urlpatterns = [
+   	# ...
+   	url(r'^centrifuge/auth/$', instant_auth, name='instant-auth'),
+   	url('^chat/', include('rechat.urls')),
+   	]
 
 Settings
 --------
@@ -25,18 +31,11 @@ Settings
 
 ::
 
-   # 1. Required
+   # Required
    
    SITE_SLUG = "mysite"
    
-   # 2. Optional general settings:
-   
-   # rechat database: default is SITE_SLUG
-   RECHAT_DB = "rechat"
-   # rechat table: default is "chat"
-   RECHAT_TABLE = "mychattable"
-   
-   # 3. Persistence
+   # Cache
    
    # default: True
    USE_CACHE = False
@@ -50,44 +49,24 @@ Settings
    RECHAT_REDIS_PORT = 4867
    # default: 0
    RECHAT_REDIS_DB = 1
+
    
-   # 4. History
-   USE_HISTORY = True
-   
-You will need Redis to be installed to use persistence.  
+You will need Redis to be installed to use the cache.  
 
-If you use history create the database and table in Rethinkdb, and add a secondary index 
-set to ``timestamp`` to the table. 
+Only the logged in users can chat.
 
-By default only the logged in users can chat. To enable the anonymous users in the chat: in settings.py: 
-
-.. highlight:: python
-
-::
-
-   RECHAT_ALLOW_ANONYMOUS = True
-   
-You will also have to configure Centrifugo for this: in config.json:
-
-.. highlight:: javascript
-
-::
-
-   {
-  "secret": "70b651f6-775a-4949-982b-b387b31c1d84",
-  "anonymous": true
-  }
-  
 Templates
 ---------
 
-Create a ``templates/instant/extra_clients.js`` with this content:
+Create a ``templates/instant/handlers/$mysite_chat`` (where mysite is the value of the
+``SITE_SLUG`` setting). Fill it with this content:
 
 .. highlight:: python
 
 ::
 
-   {% include "rechat/js/client.js" %}
+   {% include "rechat/js/handler.js" %}
+   
 
 
   
