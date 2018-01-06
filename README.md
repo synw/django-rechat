@@ -12,3 +12,9 @@ Options:
 - Redis for the cache
 
 Read the [documentation](http://django-rechat.readthedocs.io/en/latest/)
+
+## Todo
+
+- [ ] Add a persistence option
+- [ ] Group level authorizations and maybe channels
+- [ ] Add a presence widget to show users in the chat
