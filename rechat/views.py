@@ -8,6 +8,9 @@ from instant.conf import SITE_SLUG
 from rechat.producers import process_message
 from rechat.conf import USE_CACHE, TEMPLATE
 from django.views.generic.base import TemplateView
+from mqueue.models import MEvent
+from .models import ChatMessage
+from django.utils import timezone
 if USE_CACHE is True:
     import redis
     from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB
@@ -37,6 +40,11 @@ class PostView(View):
         err = process_message(user, username, msg)
         if err is not None:
             return JsonResponse({"error": 1})
+        # fire an event
+        data["user"] = request.user
+        data["date"] = timezone.now()
+        MEvent.objects.create(name=msg, event_class="__chat_msg__",
+                              model=ChatMessage, data=data)
         return JsonResponse({"error": 0})
 
 
