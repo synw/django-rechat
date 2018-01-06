@@ -1,4 +1,4 @@
-{% load i18n staticfiles %}
+{% load i18n staticfiles rechat_tags %}
 
 <script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'rechat/js/display.js' %}"></script>
@@ -10,7 +10,7 @@
 	}
 {% endif %}
 </style>
-<div id="chatbox"></div>
+<div id="chatbox">{% get_cache_history cache_history %}</div>
 <div id="chatformbox">
 	<form id="chatform" class="form-horizontal" method="post" onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' %}')">
 		{% csrf_token %}
