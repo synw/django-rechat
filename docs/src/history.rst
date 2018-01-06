@@ -28,7 +28,7 @@ object:
 ::
 
    def save(event, conf):
-    if (event.event_class == "someclass"):
+    if (event.event_class == "__chat_msg__"):
         do_something()
         
 The in settings:
