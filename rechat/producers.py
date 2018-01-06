@@ -18,12 +18,10 @@ def process_message(user, username, message):
         timestamp = time.time()
         data = str(timestamp) + ':' + username + ':' + message
         store.lpush(key, data)
-        print("DATA", store.lrange(key, 0, -1))
         numkeys = store.llen(key)
         if numkeys > CHAT_CACHE:
             num = CHAT_CACHE-1
             store.ltrim(key, 0, -num)
-            print("TRIM", store.lrange(key, 0, -1))
         store.expire(key, CHAT_CACHE_TTL)
     # 2. push to socket
     err = publish(message, event_class="__chat_message__",
