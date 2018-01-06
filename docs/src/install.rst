@@ -34,8 +34,11 @@ Settings
    # Required
    
    SITE_SLUG = "mysite"
+   INSTANT_USERS_CHANNELS = [
+    ["$" + SITE_SLUG + "_chat", ["/chat"]]
+   ]
    
-   # Cache
+   # Optional
    
    # default: True
    USE_CACHE = False
