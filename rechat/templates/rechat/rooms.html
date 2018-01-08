@@ -1,0 +1,11 @@
+{% extends base_template %}
+
+{% block content %}
+<ul id="rooms" class="list-group">
+	{% for room in rooms %}
+		<li class="list-group-item">
+			<a href="{% url 'rechat-room' room.slug %}">{{ room.name }}</a>
+		</li>
+	{% endfor %}
+</ul>
+{% endblock %}

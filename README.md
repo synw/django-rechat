@@ -17,4 +17,6 @@ Read the [documentation](http://django-rechat.readthedocs.io/en/latest/)
 
 - [x] Add a persistence layer option
 - [ ] Group level authorizations and maybe channels
+- [ ] Rate limits
+- [ ] Channel admin, kick/ban
 - [ ] Add a presence widget to show users in the chat

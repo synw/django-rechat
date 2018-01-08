@@ -2,7 +2,7 @@
 
 <script type="text/javascript" src="{% static 'js/axios.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'rechat/js/display.js' %}"></script>
-<link rel="stylesheet" media="screen, projection" href="{% static 'rechat/css/screen.css' %}" />
+<link rel="stylesheet" media="screen, projection" href="{% static 'rechat/css/widget.css' %}" />
 <style>
 {% if request.path|slice:":5" == "/chat" %}
 	#chatbox, #chatformbox {
@@ -12,7 +12,8 @@
 </style>
 <div id="chatbox">{% get_cache_history cache_history %}</div>
 <div id="chatformbox">
-	<form id="chatform" class="form-horizontal" method="post" onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' %}')">
+	<form id="chatform" class="form-horizontal" method="post" 
+			onsubmit="event.preventDefault();postMsg('{% url 'rechat-post' room.slug %}')">
 		{% csrf_token %}
 		<div class="input-group">
 			<input type="text" id="message" name="message" />

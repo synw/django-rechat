@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from .models import ChatMessage
+from .models import ChatMessage, ChatRoom
 
 
 @admin.register(ChatMessage)
@@ -16,3 +16,9 @@ class ChatMessageAdmin(admin.ModelAdmin):
     list_select_related = (
         'user',
     )
+
+
+@admin.register(ChatRoom)
+class ChatRoomAdmin(admin.ModelAdmin):
+    list_display = ["name", "public"]
+    prepopulated_fields = {'slug': ('name',), }

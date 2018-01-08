@@ -22,7 +22,7 @@ def get_cache_history(cache_history):
     for key in cache_history:
         s = key.decode("utf-8").split(':')
         timestamp = datetime.datetime.fromtimestamp(
-            float(s[0])).strftime('%H:%M')
+            float(s[0])).strftime('%H:%M:%S')
         username = s[1]
         message = s[2]
         html += '<a name="' + timestamp + '"></a>' + timestamp + ' ' + \

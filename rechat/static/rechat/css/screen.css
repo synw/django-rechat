@@ -15,35 +15,3 @@ body {
 	color:white;
 	text-decoration:none;
 }
-#chatbox {
-	text-align:left;
-	padding:1em;
-	height:74%;
-	overflow:auto;
-	width:96%;
-}
-#chatformbox {
-	margin-top:1em;
-	text-align:left;
-	left:0px;
-	bottom:0px;
-	padding:1em;
-	width:100%;
-}
-#chatform input[type=text] {
-	display:inline-block;
-	width:85%;
-	height:2em;
-}
-#chatform input[type=submit] {
-	display:inline-block;
-	background-color:steelblue;
-	color:white;
-	padding:0.5em 0.8em 0.5em 0.8em;
-	border-radius:5px;
-	font-size:100%;
-}
-#message {
-	font-family: sans-serif;
-	min-height:2.8em;
-}

@@ -1,5 +1,17 @@
+{% load staticfiles i18n %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{% block title %}Home{% endblock %}{% block title-page %}{% endblock title-page %}</title>
+	<link rel="stylesheet" media="screen, projection" href="{% static 'rechat/css/screen.css' %}" />
+</head>
+<body>
 {% block header %}
-	{% include "rechat/header.html" %}
+	<div id="rc_header">
+		<div id="rc_title">
+			<a href="/">Rechat</a>
+		</div>
+	</div>
 {% endblock %}
 
 {% block content %}
@@ -8,8 +20,8 @@
 	</div>
 {% endblock %}
 
-{% include "instant/client.html" %}
+{% block footer %}{% endblock %}
 
-{% block footer %}
-	{% include "rechat/footer.html" %}
-{% endblock %}
+{% include "instant/client.html" %}
+</body>
+</html>

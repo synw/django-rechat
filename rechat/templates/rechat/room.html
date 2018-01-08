@@ -1,0 +1,12 @@
+{% extends base_template %}
+{% load i18n %}
+
+{% block content %}
+	{% if not_found is True %}
+		<h2 style="text-align:center;padding-top:3em">
+			{% trans 'Room not found' %}
+		</h2>
+	{% else %}
+		{% include "rechat/widget.html" %}
+	{% endif %}
+{% endblock %}
