@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
    
    src/install
+   src/usage
    src/cache
    src/history
    src/activity

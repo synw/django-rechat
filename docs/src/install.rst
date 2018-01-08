@@ -73,8 +73,9 @@ Only the logged in users can chat.
 Templates
 ---------
 
-Create a ``templates/instant/handlers/$mysite_chat`` (where mysite is the value of the
-``SITE_SLUG`` setting). Fill it with this content:
+Create a 
+
+Create a ``templates/instant/handlers/default.js`` Fill it with this content:
 
 .. highlight:: python
 
@@ -83,6 +84,7 @@ Create a ``templates/instant/handlers/$mysite_chat`` (where mysite is the value 
    {% include "rechat/js/handler.js" %}
    
 
+To create a custom handler for a room create a ``templates/instant/handlers/<room_name>.js``
 
   
   
