@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
+from instant.models import Channel
 
 
 USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
@@ -10,11 +11,14 @@ USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', User)
 
 class ChatRoom(models.Model):
     name = models.CharField(max_length=60, verbose_name=_(u"Name"))
-    slug = models.SlugField(verbose_name=_(u"Slug"))
-    groups = models.ManyToManyField(
-        Group, blank=True, verbose_name=_(u"Groups"))
+    slug = models.SlugField(verbose_name=_(u"Slug"), unique=True)
+    groups = models.ManyToManyField(Group, blank=True,
+                                    verbose_name=_(u"Groups"))
     public = models.BooleanField(default=False, verbose_name=_(u"Public room"),
-                                 help_text=_(u"All the logged in users can enter this room"))
+                                 help_text=_(u"All the logged in users can "
+                                             "enter this room"))
+    channel = models.ForeignKey(Channel, verbose_name=_(u"Channel"), null=True,
+                                editable=False, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = _(u'Chat room')

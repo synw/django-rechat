@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 from instant.producers import publish
-from rechat.conf import USE_CACHE
+from .conf import USE_CACHE
 if USE_CACHE is True:
     import redis
     from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB, CHAT_CACHE, CHAT_CACHE_TTL

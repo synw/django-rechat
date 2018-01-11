@@ -6,6 +6,10 @@ Websockets server
 
 Install `Django Instant <https://github.com/synw/django-instant>`_ .
 
+**Important note**: you have to use the ``database_channels`` branch from the django-instant
+repository for this module to work for the moment (it uses advanced features that
+have not yet landed mainstream).
+
 Instructions are `here <http://django-instant.readthedocs.io/en/latest/src/install.html>`_
 
 ``pip install redis django-mqueue``

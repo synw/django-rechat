@@ -1,6 +1,8 @@
 {% extends base_template %}
 {% load i18n %}
 
+{% block title %}{{ room }}{% endblock %}
+
 {% block content %}
 	{% if not_found is True %}
 		<h2 style="text-align:center;padding-top:3em">
