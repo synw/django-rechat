@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import json
 from django.middleware.csrf import CsrfViewMiddleware
 from django.views import View
@@ -7,13 +6,11 @@ from django.http import JsonResponse
 from django.utils.html import strip_tags
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from mqueue.models import MEvent
-from .models import ChatMessage, ChatRoom
+
+# from mqueue.models import MEvent
+from .models import ChatRoom
 from django.utils import timezone
-from .conf import USE_CACHE, TEMPLATE
-if USE_CACHE is True:
-    import redis
-    from rechat.conf import REDIS_HOST, REDIS_PORT, REDIS_DB
+from .conf import BASE_TEMPLATE
 from .producers import process_message
 
 
@@ -25,23 +22,28 @@ def check_csrf(request):
 
 
 def is_authorized(room, user, groups):
-    if room.public is True:
-        print("Public")
-        if user.is_authenticated() is True:
-            print("Auth")
-            return True
     if user.is_superuser is True:
         return True
-    for group in groups:
-        if group in groups:
+    if room.level == "public":
+        return True
+    elif room.level == "user":
+        # print("Public")
+        if user.is_authenticated() is True:
+            # print("Auth")
+            return True
+    elif room.level == "groups":
+        for group in groups:
+            if group in groups:
+                return True
+    elif room.level == "staff":
+        if user.is_staff() is True:
             return True
     return False
 
 
 class PostView(View, LoginRequiredMixin):
-
     def post(self, request, *args, **kwargs):
-        if check_csrf(request) == False:
+        if not check_csrf(request):
             return JsonResponse({"error": 403})
         if request.user.is_anonymous is True:
             return JsonResponse({"error": 403})
@@ -54,28 +56,31 @@ class PostView(View, LoginRequiredMixin):
             groups = self.request.user.groups.all()
         if is_authorized(room, request.user, groups) is False:
             return JsonResponse({"error": 403})
-        data = json.loads(self.request.body.decode('utf-8'))
+        data = json.loads(self.request.body.decode("utf-8"))
         if request.user.is_superuser is True:
-            msg = data['message']
+            msg = data["message"]
         else:
-            msg = strip_tags(data['message'])
+            msg = strip_tags(data["message"])
         if msg == "":
             return JsonResponse({"error": 204})
         user = request.user
         username = user.username
-        err = process_message(room, username, msg)
-        if err is not None:
+        try:
+            process_message(room, username, msg)
+        except Exception as e:
+            raise e
             return JsonResponse({"error": 500})
         # fire an event
         data["user"] = request.user
         data["date"] = timezone.now()
-        MEvent.objects.create(name=msg, event_class="__chat_msg__",
-                              model=ChatMessage, data=data)
+        """MEvent.objects.create(
+            name=msg, event_class="__chat_msg__", model=ChatMessage, data=data
+        )"""
         return JsonResponse({"error": 0})
 
 
 class RoomsListView(TemplateView, LoginRequiredMixin):
-    template_name = 'rechat/rooms.html'
+    template_name = "rechat/rooms.html"
 
     def get_context_data(self, **kwargs):
         context = super(RoomsListView, self).get_context_data(**kwargs)
@@ -90,12 +95,15 @@ class RoomsListView(TemplateView, LoginRequiredMixin):
             if is_authorized(room, self.request.user, groups):
                 authorized_rooms.append(room)
         context["rooms"] = authorized_rooms
-        context["base_template"] = TEMPLATE
         return context
 
 
+class ChatIndexView(TemplateView, LoginRequiredMixin):
+    template_name = "rechat/index.html"
+
+
 class ChatView(TemplateView, LoginRequiredMixin):
-    template_name = 'rechat/room.html'
+    template_name = "rechat/room.html"
     raise_exception = True
 
     def get_context_data(self, **kwargs):
@@ -115,14 +123,5 @@ class ChatView(TemplateView, LoginRequiredMixin):
                 groups = self.request.user.groups.all()
             if is_authorized(room, self.request.user, groups) is False:
                 raise Http404()
-            # get cache data
-            if USE_CACHE is True:
-                store = redis.StrictRedis(
-                    host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB)
-
-                key = 'rechat_' + room.slug
-                # retrieve cache history
-                data = store.lrange(key, 0, -1)
-                context["cache_history"] = reversed(data)
-        context["base_template"] = TEMPLATE
+        context["base_template"] = BASE_TEMPLATE
         return context

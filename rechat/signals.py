@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-from django.urls.base import reverse
+import uuid
+
 from django.db.models import signals
 from instant.models import Channel
 from .models import ChatRoom
@@ -7,12 +7,16 @@ from .models import ChatRoom
 
 def room_save(sender, instance, created, **kwargs):
     if created is True:
-        paths = reverse("rechat-room", kwargs=dict(room=instance.slug))
-        role = "users"
-        if instance.groups.all() is not None:
-            role = "groups"
-        channel, _ = Channel.objects.get_or_create(
-            slug=instance.slug, paths=paths, role=role)
+        # generate a channel for the room
+        channel_name = instance.slug + "_" + str(uuid.uuid4())[:8]
+        channel = Channel.objects.create(name=channel_name)
+        groups = instance.groups.all()
+        # print("Groups", groups)
+        if len(groups) > 0:
+            for group in groups:
+                channel.groups.add(group)
+        channel.save()
+        # attach channel to room
         instance.channel = channel
         signals.post_save.disconnect(room_save, sender=ChatRoom)
         instance.save()

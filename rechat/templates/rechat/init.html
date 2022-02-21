@@ -1,0 +1,36 @@
+{% load static %}
+
+<script src="https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@2.8.4/dist/centrifuge.min.js"></script>
+<script src="{% static 'rechat/index.js' %}"></script>
+<script src="{% static 'rechat/store.js' %}"></script>
+<script>
+  document.addEventListener('alpine:init', () => {
+    console.log("Alpine init");
+    //initChatroom("xxx");
+    initRechatStore();
+    initChatroomStore();
+  });
+  //htmx.logAll();
+  // add CSRFToken to HTMX headers
+  document.body.addEventListener('htmx:configRequest', (event) => {
+    event.detail.headers['X-CSRFToken'] = '{{ csrf_token|safe }}';
+  });
+  initApp()
+</script>
+<script async type="module">
+  import Instant from "{% static 'instant/lib/base.js' %}";
+
+  const instant = new Instant(
+    "http://localhost:8002", // Django backend's address
+    "ws://localhost:8427", // Centrifugo server's address
+    true, // verbosity (optional, default: false)
+  );
+  console.log("INSTANT", instant)
+  await instant.get_token();
+  instant.onMessage = (msg) => $chatroom.incomingMessage(msg);
+  await instant.connect();
+  console.log("Websockets connected");
+</script>
+<script>
+
+</script>

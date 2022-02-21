@@ -1,14 +1,7 @@
-{% extends base_template %}
-{% load i18n %}
-
-{% block title %}{% trans "Rooms" %}{% endblock %}
-
-{% block content %}
-<ul id="rooms" class="list-group">
+<ul id="rooms-list">
 	{% for room in rooms %}
-		<li class="list-group-item">
-			<a href="{% url 'rechat-room' room.slug %}">{{ room.name }}</a>
-		</li>
+	<li>
+		<div x-on:click="$chatroom.open('{{ room.name }}', '{% url 'rechat-room' room.slug %}')">{{ room.name }}</div>
+	</li>
 	{% endfor %}
 </ul>
-{% endblock %}

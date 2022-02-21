@@ -1,14 +1,42 @@
-{% extends base_template %}
-{% load i18n %}
+{% if not_found is True %}
+<h2 style="text-align:center;padding-top:3em">
+	Room not found
+</h2>
+{% else %}
+<div id="room-content">
+	<div id="room-top">
+		#{{room.name}}
+	</div>
+	<div id="chatbox"></div>
+	<div id="chatform">
+		<form method="post" onsubmit="event.preventDefault()">
+			<input type="text" id="message" name="message" />
+			<input type="submit" class="btn btn-primary" value="Send" />
+		</form>
+	</div>
+</div>
 
-{% block title %}{{ room }}{% endblock %}
+<style>
+	#room-content {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+	}
 
-{% block content %}
-	{% if not_found is True %}
-		<h2 style="text-align:center;padding-top:3em">
-			{% trans 'Room not found' %}
-		</h2>
-	{% else %}
-		{% include "rechat/widget.html" %}
-	{% endif %}
-{% endblock %}
+	#chatbox {
+		flex-grow: 1;
+		padding: 1rem;
+	}
+
+	#room-top {
+		width: 100%;
+		padding: 1rem;
+		font-weight: bold;
+	}
+
+	#chatform {
+		padding: 1rem;
+	}
+
+</style>
+{% endif %}
