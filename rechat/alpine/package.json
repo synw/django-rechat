@@ -14,7 +14,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "alpinejs": "^3.8.1"
+    "alpinejs": "^3.8.1",
+    "djangoinstant": "^0.1.0"
   },
   "devDependencies": {
     "tslib": "^2.3.1",

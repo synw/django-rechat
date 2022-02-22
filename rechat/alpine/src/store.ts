@@ -1,5 +1,6 @@
-var $chatroom;
-var $rechat;
+var $chatroom: typeof Alpine.store;
+var $rechat: typeof Alpine.store;
+var $instant: typeof Instant;
 
 class ChatMessage {
   date: Date;
@@ -16,25 +17,26 @@ class ChatMessage {
 /**
  * Initialize the global rechat store
  */
-function initRechatStore(): void {
+function initRechatStore(username?: string): void {
   Alpine.store('rechat', {
     name: "",
-    users: new Array<string>(),
+    user: "",
 
-    init() {
-      console.log("Init main rechat store");
+    init(username?: string) {
+      console.log("Username:", username)
+      this.user = username ?? "anonymous";
+      console.log("Init rechat store for user", this.user);
     },
     hxget(url: string, destination: string) {
       htmx.ajax('GET', url, destination);
     },
   });
-  Alpine.store('rechat').init();
+  Alpine.store('rechat').init(username);
   $rechat = Alpine.store("rechat");
 }
 
 /**
  * Initialize the chatroom object type
- * @param name the name of the chatroom
  */
 function initChatroomStore(): void {
   Alpine.store('chatroom', {
@@ -46,8 +48,10 @@ function initChatroomStore(): void {
       console.log("Init chatroom store");
     },
     open(name: string, url: string, destination = '#room') {
+      console.log("Opening room", name)
       this.name = name;
-      htmx.ajax(url, destination);
+      this.users.push($rechat.user);
+      htmx.ajax('GET', url, destination);
     },
     incomingMessage(msg: any) {
       console.log("Incoming msg", msg)
