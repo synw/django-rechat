@@ -20,6 +20,8 @@ urlpatterns = [
 
 Install the websockets server: [quickstart](https://github.com/synw/django-instant#install-the-websockets-server)
 
+Create chat rooms in the admin
+
 ## Usage
 
 An Alpinejs frontend is available. To use the rechat templates create your own index template
@@ -40,6 +42,10 @@ An Alpinejs frontend is available. To use the rechat templates create your own i
 </div>
 {% endblock %}
 ```
+
+## Example project
+
+A runnable [example project](https://github.com/synw/django-rechat-example) is available 
 
 ## Todo
 
