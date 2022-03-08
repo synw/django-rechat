@@ -21,3 +21,10 @@ def room_save(sender, instance, created, **kwargs):
         signals.post_save.disconnect(room_save, sender=ChatRoom)
         instance.save()
         signals.post_save.connect(room_save, sender=ChatRoom)
+
+
+def room_delete(sender, instance, **kwargs):  # type: ignore
+    chan = instance.channel
+    instance.channel = None
+    instance.save()
+    chan.delete()

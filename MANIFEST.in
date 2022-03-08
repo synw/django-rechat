@@ -1,0 +1,3 @@
+recursive-include rechat/migrations *
+recursive-include rechat/templates *
+recursive-include rechat/static *

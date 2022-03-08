@@ -23,6 +23,7 @@ class ChatRoom(models.Model):
         blank=True,
         on_delete=models.PROTECT,
     )
+    save_messages = models.BooleanField(verbose_name=_("Save messages"), default=True)
 
     class Meta:
         verbose_name = _("Chat room")
@@ -37,7 +38,7 @@ class ChatRoom(models.Model):
 
 
 class ChatMessage(models.Model):
-    date = models.DateTimeField(verbose_name=_("Date"))
+    date = models.DateTimeField(verbose_name=_("Date"), auto_now=True)
     message = models.TextField(verbose_name=_("Message"))
     user = models.ForeignKey(
         USER_MODEL, null=True, verbose_name=_("User"), on_delete=models.SET_NULL

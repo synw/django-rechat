@@ -1,2 +1,2 @@
-__version__ = '0.1'
-default_app_config = 'rechat.apps.RechatConfig'
+__version__ = "0.2.0"
+default_app_config = "rechat.apps.RechatConfig"

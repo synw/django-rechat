@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from django.contrib import admin
+
 from .models import ChatMessage, ChatRoom
 
 
@@ -15,7 +15,7 @@ class ChatMessageAdmin(admin.ModelAdmin):
 
 @admin.register(ChatRoom)
 class ChatRoomAdmin(admin.ModelAdmin):
-    list_display = ["name", "level"]
+    list_display = ["name", "level", "save_messages"]
     prepopulated_fields = {
         "slug": ("name",),
     }
