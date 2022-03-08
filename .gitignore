@@ -5,7 +5,7 @@ settings.py
 .pydevproject
 .settings
 **/node_modules/
-yarn.lock
+**/yarn.lock
 package-lock.json
 
 __pycache__/
