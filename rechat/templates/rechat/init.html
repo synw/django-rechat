@@ -1,22 +1,18 @@
 {% load static %}
 
-<script src="https://cdn.jsdelivr.net/gh/centrifugal/centrifuge-js@2.8.4/dist/centrifuge.min.js"></script>
 <script src="{% static 'rechat/index.js' %}"></script>
-<script src="{% static 'rechat/store.js' %}"></script>
-<script type="module">
-  import { initWs } from "{% static 'rechat/websockets.js' %}";
-  initWs()
-</script>
 <script>
+  var $rechat;
+  var $chatroom;
   document.addEventListener('alpine:init', () => {
     console.log("Alpine init");
-    initRechatStore("{{ request.user.get_username }}");
-    initChatroomStore();
+    $rechat = $alpine.initRechatStore("{{ request.user.get_username }}");
+    $chatroom = $alpine.initChatroomStore();
+    $alpine.initWs($chatroom);
   });
   //htmx.logAll();
   // add CSRFToken to HTMX headers
   document.body.addEventListener('htmx:configRequest', (event) => {
     event.detail.headers['X-CSRFToken'] = '{{ csrf_token|safe }}';
   });
-  initApp()
 </script>

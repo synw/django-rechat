@@ -7,17 +7,24 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "build:check": "tsc --extendedDiagnostics"
+    "ts:build": "tsc",
+    "ts:watch": "tsc -w",
+    "ts:check": "tsc --extendedDiagnostics",
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "alpinejs": "^3.8.1",
-    "djangoinstant": "^0.1.0"
+    "djangoinstant": "^0.2.0"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^21.0.2",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-typescript": "^8.3.1",
+    "rollup": "^2.70.0",
+    "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.3.1",
     "typescript": "^4.5.5"
   }

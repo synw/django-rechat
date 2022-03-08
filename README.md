@@ -1,13 +1,6 @@
 # Django Rechat
 
-Chat application for Django using websockets.
-
-Dependencies:
-
-- [Centrifugo](https://github.com/centrifugal/centrifugo) with 
-[Django Instant](https://github.com/synw/django-instant) for the websockets
-
-Read the [documentation](http://django-rechat.readthedocs.io/en/latest/)
+Chat application for Django using websockets
 
 ## Todo
 

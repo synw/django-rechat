@@ -1,7 +1,12 @@
 <ul id="rooms-list">
 	{% for room in rooms %}
 	<li>
-		<div x-on:click="$chatroom.open('{{ room.name }}', '{% url 'rechat-room' room.slug %}')">{{ room.name }}</div>
+		<div x-on:click="$chatroom.open(
+				'{{ room.name }}', 
+				'{% url 'rechat-room' room.slug %}', 
+				'{% url 'rechat-post' room.slug %}'
+				)">
+			{{ room.name }}</div>
 	</li>
 	{% endfor %}
 </ul>

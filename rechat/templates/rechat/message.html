@@ -1,0 +1,7 @@
+<template x-for="(msg,i) in msgs" :key="i">
+  <div>
+    <span x-html="msg.time"></span>
+    <span x-html="msg.user"></span>
+    <span x-html="msg.content"></span>
+  </div>
+</template>

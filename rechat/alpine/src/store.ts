@@ -1,28 +1,11 @@
-var $chatroom: typeof Alpine.store;
-var $rechat: typeof Alpine.store;
-var $instant: typeof Instant;
+import ChatMessage from "./models/chat_message";
 
-class ChatMessage {
-  date: Date;
-  user: string;
-  content: string;
 
-  constructor(date: Date, user: string, content: string) {
-    this.date = date;
-    this.user = user;
-    this.content = content;
-  }
-}
-
-/**
- * Initialize the global rechat store
- */
-function initRechatStore(username?: string): void {
+function initRechatStore(username?: string): typeof Alpine.store {
   Alpine.store('rechat', {
     name: "",
     user: "",
-
-    init(username?: string) {
+    create(username?: string) {
       console.log("Username:", username)
       this.user = username ?? "anonymous";
       console.log("Init rechat store for user", this.user);
@@ -31,32 +14,36 @@ function initRechatStore(username?: string): void {
       htmx.ajax('GET', url, destination);
     },
   });
-  Alpine.store('rechat').init(username);
-  $rechat = Alpine.store("rechat");
+  const s = Alpine.store('rechat');
+  s.create(username);
+  return s;
 }
 
-/**
- * Initialize the chatroom object type
- */
-function initChatroomStore(): void {
+function initChatroomStore(): typeof Alpine.store {
   Alpine.store('chatroom', {
     name: "",
     users: new Array<string>(),
     messages: Array<ChatMessage>(),
-
-    init() {
-      console.log("Init chatroom store");
-    },
-    open(name: string, url: string, destination = '#room') {
-      console.log("Opening room", name)
+    url: "",
+    postUrl: "",
+    open(name: string, url: string, postUrl: string, destination = '#room') {
+      this.url = url;
+      this.postUrl = postUrl;
       this.name = name;
-      this.users.push($rechat.user);
       htmx.ajax('GET', url, destination);
     },
     incomingMessage(msg: any) {
-      console.log("Incoming msg", msg)
+      const m = new ChatMessage(msg.date, msg.data.username, msg.msg);
+      this.messages.push(m);
+    },
+    async postMessage(msg: string) {
+      //console.log("Post msg", msg, "in", this.postUrl);
+      const payload = { msg: msg };
+      await htmx.ajax('POST', this.postUrl, { values: payload });
     }
   });
-  Alpine.store('chatroom').init();
-  $chatroom = Alpine.store("chatroom")
+  const s = Alpine.store('chatroom');
+  return s;
 }
+
+export { initChatroomStore, initRechatStore }

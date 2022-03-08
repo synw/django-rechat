@@ -28,6 +28,10 @@ class ChatRoom(models.Model):
         verbose_name = _("Chat room")
         verbose_name_plural = _("Chat rooms")
 
+    @property
+    def channel_name(self) -> str:
+        return self.channel.name
+
     def __str__(self):
         return self.name
 

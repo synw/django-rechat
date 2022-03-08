@@ -1,24 +1,13 @@
-import json
-from django.middleware.csrf import CsrfViewMiddleware
 from django.views import View
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponse
 from django.http import JsonResponse
 from django.utils.html import strip_tags
 from django.views.generic.base import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-# from mqueue.models import MEvent
 from .models import ChatRoom
-from django.utils import timezone
 from .conf import BASE_TEMPLATE
 from .producers import process_message
-
-
-def check_csrf(request):
-    reason = CsrfViewMiddleware().process_view(request, None, (), {})
-    if reason:
-        return False
-    return True
 
 
 def is_authorized(room, user, groups):
@@ -43,8 +32,6 @@ def is_authorized(room, user, groups):
 
 class PostView(View, LoginRequiredMixin):
     def post(self, request, *args, **kwargs):
-        if not check_csrf(request):
-            return JsonResponse({"error": 403})
         if request.user.is_anonymous is True:
             return JsonResponse({"error": 403})
         try:
@@ -56,27 +43,18 @@ class PostView(View, LoginRequiredMixin):
             groups = self.request.user.groups.all()
         if is_authorized(room, request.user, groups) is False:
             return JsonResponse({"error": 403})
-        data = json.loads(self.request.body.decode("utf-8"))
+        # decode data
+        _msg = request.POST["msg"]
+        # process data
         if request.user.is_superuser is True:
-            msg = data["message"]
+            msg = _msg
         else:
-            msg = strip_tags(data["message"])
+            msg = strip_tags(_msg)
         if msg == "":
             return JsonResponse({"error": 204})
-        user = request.user
-        username = user.username
-        try:
-            process_message(room, username, msg)
-        except Exception as e:
-            raise e
-            return JsonResponse({"error": 500})
-        # fire an event
-        data["user"] = request.user
-        data["date"] = timezone.now()
-        """MEvent.objects.create(
-            name=msg, event_class="__chat_msg__", model=ChatMessage, data=data
-        )"""
-        return JsonResponse({"error": 0})
+        # publish the message
+        process_message(room, request.user.username, msg)
+        return HttpResponse(status=204)
 
 
 class RoomsListView(TemplateView, LoginRequiredMixin):
